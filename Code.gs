@@ -1,6 +1,28 @@
+const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+
+// Configuration Variables Index
+// For Employee's Sheet
+var emailAddressIndex = 7;
+var employeeNameIndex = 1;
+// For Task's Sheet
+var companyNameIndex = 0;
+var taskNameIndex = 1;
+var taskDescIndex = 2;
+var allocatedHoursIndex = 3;
+var taskEmailAddressIndex = 5
+var assignedOnIndex = 6;
+var deadlineDateIndex = 7;
+var inchargeIndex = 8;
+var taskStatusIndex = 9;
+
 function sendGeneratedEmail() {
-  var employeeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[1];   //  Depends on the sheet number i.e. sheet no - 1
-  var taskSheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];   //  Depends on the sheet number i.e. sheet no - 1
+  const todayDate = new Date();
+  var currMonth = months[todayDate.getMonth()];
+  var activeSpreadSheet = SpreadsheetApp.getActiveSpreadsheet().getSheets();
+  var employeeSheetIndex = activeSpreadSheet.findIndex((sheet) => sheet.getName() === 'Company Employees');
+  var taskSheetIndex = activeSpreadSheet.findIndex((sheet) => sheet.getName() === currMonth);
+  var employeeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[employeeSheetIndex];
+  var taskSheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[taskSheetIndex];
   var employeeDataRange = employeeSheet.getDataRange();
   var employeeData = employeeDataRange.getValues();   // Gets Data from Employee Sheet
   var taskDataRange = taskSheet.getDataRange();
@@ -9,8 +31,8 @@ function sendGeneratedEmail() {
   // Loops Through All Active Employees
   for (var i = 0; i < employeeData.length; i++) {
 
-    var emailAddress = employeeData[i][7];
-    var employeeName = employeeData[i][1];
+    var emailAddress = employeeData[i][emailAddressIndex];
+    var employeeName = employeeData[i][employeeNameIndex];
     var taskCardsDisplay = "";
     var taskAssigned = false;
     var taskCount = 0;
@@ -18,22 +40,21 @@ function sendGeneratedEmail() {
     // Loops Through Task Data
     for (var j = 1; j < taskData.length; j++) {
       
-      if (taskData[j][5] === emailAddress) {
-        var taskStatus = taskData[j][9];
+      if (taskData[j][taskEmailAddressIndex] === emailAddress) {
+        var taskStatus = taskData[j][taskStatusIndex];
         if (taskStatus !== "Completed") {
           taskAssigned = true;
-          var companyName = taskData[j][0];
-          var taskName = taskData[j][1];
-          var assignedOn = taskData[j][6].toLocaleDateString();
-          var allocatedHours = taskData[j][3];
+          var companyName = taskData[j][companyNameIndex];
+          var taskName = taskData[j][taskNameIndex];
+          var assignedOn = taskData[j][assignedOnIndex].toLocaleDateString();
+          var allocatedHours = taskData[j][allocatedHoursIndex];
           var taskDuration = Math.ceil(allocatedHours/3);
-          var taskDesc = taskData[j][2];
-          var deadlineDate = taskData[j][7];
+          var taskDesc = taskData[j][taskDescIndex];
+          var deadlineDate = taskData[j][deadlineDateIndex];
           var deadline = deadlineDate.toLocaleDateString();
-          var todayDate = new Date();
           var daysRemaining = Math.floor((Math.abs(deadlineDate - todayDate)/1000)/(60*60*24));
           var isDeadlineCrossed = todayDate > deadlineDate
-          var incharge = taskData[j][8];
+          var incharge = taskData[j][inchargeIndex];
 
           taskCount++;  // Increment No of Task Assigned
           taskCardsDisplay = taskCardsDisplay + " " + taskCards(companyName,taskName,assignedOn,allocatedHours,taskDuration,deadline,daysRemaining,incharge, taskDesc, isDeadlineCrossed);  // Create and Concatenate Task Card Component
@@ -41,17 +62,17 @@ function sendGeneratedEmail() {
       }
     }
 
-      // Code To send emails
-      var subject = "Morning Summary";
-      var htmlBody = generateEmail(employeeName, taskCardsDisplay, taskCount, taskAssigned);
+    // Code To send emails
+    var subject = "Morning Summary";
+    var htmlBody = generateEmail(employeeName, taskCardsDisplay, taskCount, taskAssigned);
       
-      if (emailAddress) {
-        MailApp.sendEmail({
-          to: emailAddress,
-          subject: subject,
-          htmlBody: htmlBody
-        });
-      }
+    if (emailAddress) {
+      MailApp.sendEmail({
+        to: emailAddress,
+        subject: subject,
+        htmlBody: htmlBody
+      });
+    }
 
   }
 }
@@ -141,6 +162,7 @@ function taskHtml(taskCardsDisplay, taskCount, taskAssigned) {
         <h2 style="text-align: center">
           There No task assigned to you today.
         </h2>
+    </div>
     </div> `;
 }
 
@@ -174,7 +196,7 @@ function taskCards(companyName,taskName,assignedOn,allocatedHours,taskDuration,d
         <table style="width: 90%; margin: auto">
           <tr>
             <td>
-              <p style="grid-area: title; font-size: 16px; margin: 0 0 5px 0">
+              <p font-size: 16px; margin: 0 0 5px 0">
                 ${companyName}
               </p>
             </td>
@@ -189,7 +211,6 @@ function taskCards(companyName,taskName,assignedOn,allocatedHours,taskDuration,d
                   border-radius: 5px;
                   font-weight: 600;
                   font-size: 13px;
-                  grid-area: button;
                   margin: auto;
                 "
                 >View Details</a
@@ -200,10 +221,10 @@ function taskCards(companyName,taskName,assignedOn,allocatedHours,taskDuration,d
             <td>
               <p
                 style="
-                  grid-area: task;
-                  font-size: 15px;
+                  font-size: 14px;
                   color: #9e9a9a;
                   margin: 0;
+                  width: 6rem;
                 "
               >
                 ${taskName}
