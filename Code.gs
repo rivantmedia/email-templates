@@ -1,4 +1,5 @@
 const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const notifyAboutTaskStatuses = ["Ongoing", "Delayed"];
 
 // Configuration Variables Index
 // For Employee's Sheet
@@ -43,7 +44,7 @@ function sendGeneratedEmail() {
       
       if (taskData[j][taskEmailAddressIndex] === emailAddress) {
         var taskStatus = taskData[j][taskStatusIndex];
-        if (taskStatus !== "Completed") {
+        if (notifyAboutTaskStatuses.includes(taskStatus)) {
           taskAssigned = true;
           var companyName = taskData[j][companyNameIndex];
           var taskName = taskData[j][taskNameIndex];
