@@ -2,6 +2,7 @@ const months = ["January","February","March","April","May","June","July","August
 
 // Configuration Variables Index
 // For Employee's Sheet
+var employeesSheetName = "Company Employees";
 var emailAddressIndex = 7;
 var employeeNameIndex = 1;
 // For Task's Sheet
@@ -9,7 +10,7 @@ var companyNameIndex = 0;
 var taskNameIndex = 1;
 var taskDescIndex = 2;
 var allocatedHoursIndex = 3;
-var taskEmailAddressIndex = 5
+var taskEmailAddressIndex = 5;
 var assignedOnIndex = 6;
 var deadlineDateIndex = 7;
 var inchargeIndex = 8;
@@ -19,7 +20,7 @@ function sendGeneratedEmail() {
   const todayDate = new Date();
   var currMonth = months[todayDate.getMonth()];
   var activeSpreadSheet = SpreadsheetApp.getActiveSpreadsheet().getSheets();
-  var employeeSheetIndex = activeSpreadSheet.findIndex((sheet) => sheet.getName() === 'Company Employees');
+  var employeeSheetIndex = activeSpreadSheet.findIndex((sheet) => sheet.getName() === employeesSheetName);
   var taskSheetIndex = activeSpreadSheet.findIndex((sheet) => sheet.getName() === currMonth);
   var employeeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[employeeSheetIndex];
   var taskSheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[taskSheetIndex];
