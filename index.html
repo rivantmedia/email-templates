@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <div
+      style="
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: auto;
+        padding: 20px;
+        background-color: #121212;
+        color: #fff;
+        border-radius: 8px;
+      "
+    >
+      <h1 style="text-align: center">Good Morning <br /><?= employeeName ?></h1>
+      <p style="text-align: center">
+        Before you get your day started, please mark your daily attendance by
+        clicking the button below.
+      </p>
+      <div style="text-align: center; margin: 35px 0">
+        <a
+          href="https://dash.rvnt.in/attendance"
+          style="
+            padding: 10px 30px;
+            background-color: #f6e8d0;
+            color: #1a1a1a;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+          "
+          >Daily Attendance</a
+        >
+      </div>
+      <div style="text-align: center; color: #4b4842">
+        <p>
+          If you are planning to take a leave today, please inform HR as well as
+          your Department Head about the same.
+        </p>
+        <p>Click the below links to write an email to HR about your leave.</p>
+        <div style="text-align: center">
+          <a
+            href="https://mail.google.com/a/rivant.in/mail/?view=cm&to=hr@rivant.in&su=Leave%20of%20Absence%20-%20%5BYour%20Name%5D%20%28Start%20Date%20-%20End%20Date%29&body=Dear%20Sir%2FMa%27am%2C%0A%0AThis%20email%20is%20to%20inform%20you%20that%20I%20will%20be%20taking%20a%20leave%20of%20absence%20from%20today%2C%20%5BDate%5D%2C%20until%20%5BEnd%20Date%5D%2C%20returning%20to%20work%20on%20%5BReturn%20Date%5D.%0A%0A%5BOptional%3A%20Briefly%20state%20the%20reason%20for%20your%20leave%2C%20but%20this%20is%20not%20mandatory.%5D%0A%0AI%20have%20completed%20%5Bbriefly%20mention%20any%20urgent%20tasks%20you%20have%20finished%5D%20and%20have%20informed%20%5Bcolleague%27s%20name%5D%20about%20my%20ongoing%20projects.%20%20%5BColleague%27s%20name%5D%20is%20familiar%20with%20the%20work%20and%20can%20be%20contacted%20at%20%5Bcolleague%27s%20email%20address%5D%20if%20anything%20urgent%20arises.%0A%0AI%20will%20be%20checking%20my%20email%20periodically%20in%20case%20of%20emergencies.%20You%20can%20reach%20me%20at%20%5Byour%20work%20email%20address%5D%20or%20%5Byour%20phone%20number%5D%20if%20absolutely%20necessary.%0A%0AThank%20you%20for%20your%20understanding.%0A%0ASincerely%2C%0A%0A%5BYour%20Name%5D"
+            style="color: #2d5173; margin: 0 10px"
+            >personal leave</a
+          >
+          |
+          <a
+            href="https://mail.google.com/a/rivant.in/mail/?view=cm&to=hr@rivant.in&su=Medical%20Leave%20of%20Absence%20-%20%5BYour%20Name%5D%20%28Start%20Date%20-%20End%20Date%29&body=Dear%20Sir%2FMa%27am%2C%0A%0AThis%20email%20is%20to%20inform%20you%20that%20I%20will%20be%20taking%20a%20medical%20leave%20of%20absence%20from%20today%2C%20%5BDate%5D%2C%20until%20%5BEnd%20Date%5D%2C%20returning%20to%20work%20on%20%5BReturn%20Date%5D.%0A%0APlease%20note%20that%20this%20is%20a%20medical%20leave.%0A%0A%5BOptional%3A%20You%20can%20choose%20to%20disclose%20more%20information%20here%2C%20but%20you%20are%20not%20obligated%20to%20do%20so.%20Examples%3A%20%22I%20will%20be%20undergoing%20a%20medical%20procedure%22%20or%20%22I%20am%20not%20feeling%20well%20enough%20to%20work.%22%20%5D%0A%0AI%20have%20completed%20%5Bbriefly%20mention%20any%20urgent%20tasks%20you%20have%20finished%5D%20and%20have%20informed%20%5Bcolleague%27s%20name%5D%20about%20my%20ongoing%20projects.%20%20%5BColleague%27s%20name%5D%20is%20familiar%20with%20the%20work%20and%20can%20be%20contacted%20at%20%5Bcolleague%27s%20email%20address%5D%20if%20anything%20urgent%20arises.%0A%0AI%20will%20be%20checking%20my%20email%20periodically%20in%20case%20of%20emergencies.%20You%20can%20reach%20me%20at%20%5Byour%20work%20email%20address%5D%20or%20%5Byour%20phone%20number%5D%20if%20absolutely%20necessary.%0A%0AThank%20you%20for%20your%20understanding.%0A%0ASincerely%2C%0A%0A%5BYour%20Name%5D"
+            style="color: #2d5173; margin: 0 10px"
+            >medical leave</a
+          >
+        </div>
+      </div>
+      <hr
+        style="
+          border-color: #fff;
+          margin: 30px 0;
+          height: 1px;
+          background-color: #fff;
+        "
+      />
+      <? if (taskAssigned) { ?>
+        <div>
+          <h2 style="text-align: center">
+            Here are the tasks you will be working on today.
+          </h2>
+          <p style="text-align: center; color: #9e9a9a">
+            (You have <?= tasks.lenght ?> tasks assigned today)
+          </p>
+        </div>
+        <? tasks.forEach((task) => { 
+          if (task.daysRemaining === 0 && task.isDeadlineCrossed) {
+            var msg = "due today";
+            var color = "#2D5173";
+          } else if (task.daysRemaining === 0 && !task.isDeadlineCrossed) {
+            var msg = "due tomorrow";
+            var color = "#4B4842";
+          } else if (task.isDeadlineCrossed) {
+            var msg = `${task.daysRemaining} day overdue`;
+            var color = "#823D3F";
+          } else {
+            var msg = `${task.daysRemaining} days remaining`;
+            var color = "#4B4842";
+          }   ?>
+          <div
+            style="
+              background-color: #2b282c;
+              padding: 20px;
+              border-radius: 8px;
+              margin: 30px auto 0 auto;
+              width: 85%;
+            "
+          >
+            <table style="width: 90%; margin: auto">
+              <tr>
+                <td>
+                  <p style="font-size: 16px; margin: 0">
+                    <?= task.companyName ?>
+                  </p>
+                </td>
+                <td rowspan="2" style="text-align: end; min-width: 105px">
+                  <? if (task.taskBriefExist) { ?>
+                    <a
+                      href="<?= task.taskBrief ?>"
+                      style="
+                        padding: 5px 15px;
+                        background-color: #f6e8d0;
+                        color: #1a1a1a;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        font-weight: 600;
+                        font-size: 13px;
+                      "
+                      >View Details</a
+                    >
+                  <? } else  { ?>
+                    <a
+                      style="
+                        padding: 5px 15px;
+                        background-color: #4F4B50;
+                        color: #A5A5A5;
+                        text-decoration: none;
+                        border-radius: 5px;
+                        font-weight: 600;
+                        font-size: 13px;
+                      "
+                      >Brief Unvailable</a
+                    >
+                  <? } ?>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p
+                    style="
+                      font-size: 14px;
+                      color: #9e9a9a;
+                      margin: 0;
+                    "
+                  >
+                    <?= task.taskDomain ?>
+                  </p>
+                </td>
+              </tr>
+            </table>
+            <div style="width: 90%; margin: 25px auto 0 auto; color: #9e9a9a">
+              <p><?= task.taskSummary ?></p>
+            </div>
+            <div style="width: 90%; margin: 25px auto 0 auto; color: #9e9a9a; font-weight: 600">
+              <table>
+                <tr>
+                  <td>
+                    <img src="https://i.ibb.co/tKqkBs1/tabler-icon-clock-down.png" alt="tabler-icon-clock-down">
+                  </td>
+                  <td>
+                    <span>Assigned On: <?= task.assignedOn ?></span>
+                  </td>
+                </tr>
+              </table>
+              <table>
+                <tr>
+                  <td>
+                    <img src="https://i.ibb.co/8Xf8zqy/tabler-icon-brand-days-counter.png" alt="tabler-icon-brand-days-counter">
+                  </td>
+                  <td>
+                    <span>Allocated Hours: <?= task.allocatedHours ?></span>
+                  </td>
+                </tr>
+              </table>
+              <table>
+                <tr>
+                  <td>
+                    <img src="https://i.ibb.co/dkK44K8/tabler-icon-hourglass-high.png" alt="tabler-icon-hourglass-high">
+                  </td>
+                  <td>
+                    <span>Task Duration: <?= task.taskDuration ?> days</span>
+                  </td>
+                </tr>
+              </table>
+              <table>
+                <tr>
+                  <td>
+                    <img src="https://i.ibb.co/R2NLG3p/tabler-icon-alarm-minus.png" alt="tabler-icon-alarm-minus">
+                  </td>
+                  <td>
+                    <span>Deadline: <?= task.deadline ?>
+                <span style="color: <?= color ?>; font-size: 11px"
+                  >(<?= msg ?>)</span
+                ></span>
+                  </td>
+                </tr>
+              </table>
+              <table>
+                <tr>
+                  <td>
+                    <img src="https://i.ibb.co/z7W9zfh/tabler-icon-user-check.png" alt="tabler-icon-user-check">
+                  </td>
+                  <td>
+                    <span>Incharge:
+                <a href="mailto:<?= task.incharge.split(" ")[0].toLowerCase() ?>@rivant.in" style="color: #4891d4"><?= task.incharge ?></a></span>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        <? }) ?>
+      <? } else  { ?>
+        <div>
+          <h2 style="text-align: center">
+            There No task assigned to you today.
+          </h2>
+        </div>
+      <? } ?>
+    </div>
+  </body>
+</html>
