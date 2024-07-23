@@ -3,7 +3,8 @@ const notifyAboutTaskStatuses = ["Ongoing", "Delayed"];
 const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 
 
-// Configuration Variables Index
+// Configuration Variables
+const subject = "Morning Summary"
 // For Employee's Sheet
 const employeesSheetName = "Company Employees";
 const emailAddressIndex = 7;
@@ -80,13 +81,12 @@ function sendGeneratedEmail() {
     }
 
     // Code To send emails
-    var subject = "Morning Summary";
     var htmlBody = generateEmail(employeeName, taskAssigned ,tasks);
       
     if (emailAddress) {
       MailApp.sendEmail({
         to: emailAddress,
-        subject: subject,
+        subject,
         htmlBody: htmlBody
       });
     }
