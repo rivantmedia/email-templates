@@ -23,6 +23,12 @@ const taskStatusIndex = 11;
 
 function sendGeneratedEmail() {
   const todayDate = new Date();
+
+  // Do not send email if it's sunday
+  if (todayDate.getDay() === 0) {
+    return;
+  }
+
   var currMonth = months[todayDate.getMonth()];
   var employeeSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(employeesSheetName);
   var taskSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(currMonth);
@@ -108,9 +114,10 @@ function createTrigger() {
   for (var i = 0; i < triggers.length; i++) {
     ScriptApp.deleteTrigger(triggers[i]);
   }
+
   ScriptApp.newTrigger('sendGeneratedEmail')
            .timeBased()
-           .atHour(8)
            .everyDays(1)
+           .atHour(5)
            .create();
 }
