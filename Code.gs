@@ -4,7 +4,7 @@ const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+
 
 
 // Configuration Variables
-const subject = "Morning Summary"
+const subject = "Your Personalised Morning Summary"
 // For Employee's Sheet
 const employeesSheetName = "Company Employees";
 const emailAddressIndex = 7;
@@ -12,14 +12,14 @@ const employeeNameIndex = 1;
 // For Task's Sheet
 const companyNameIndex = 0;
 const taskDomainIndex = 1;
-const taskSummaryIndex = 3;
-const taskBriefIndex = 4;
-const allocatedHoursIndex = 5;
-const taskEmailAddressIndex = 7;
-const assignedOnIndex = 8;
-const deadlineDateIndex = 9;
-const inchargeIndex = 10;
-const taskStatusIndex = 11;
+const taskSummaryIndex = 2;
+const taskBriefIndex = 3;
+const allocatedHoursIndex = 4;
+const taskEmailAddressIndex = 6;
+const assignedOnIndex = 7;
+const deadlineDateIndex = 8;
+const inchargeIndex = 9;
+const taskStatusIndex = 10;
 
 function sendGeneratedEmail() {
   const todayDate = new Date();
@@ -110,14 +110,41 @@ function generateEmail(employeeName, taskAssigned, tasks) {
 
 // It will make a Trigger The sendGeneratedEmail function on regular interval
 function createTrigger() {
+  //Remove all old triggers
   var triggers = ScriptApp.getProjectTriggers();
   for (var i = 0; i < triggers.length; i++) {
     ScriptApp.deleteTrigger(triggers[i]);
   }
 
+  //Add triggers for each day in week
   ScriptApp.newTrigger('sendGeneratedEmail')
            .timeBased()
-           .everyDays(1)
+           .onWeekDay(ScriptApp.WeekDay.MONDAY)
+           .atHour(5)
+           .create();
+  ScriptApp.newTrigger('sendGeneratedEmail')
+           .timeBased()
+           .onWeekDay(ScriptApp.WeekDay.TUESDAY)
+           .atHour(5)
+           .create();
+  ScriptApp.newTrigger('sendGeneratedEmail')
+           .timeBased()
+           .onWeekDay(ScriptApp.WeekDay.WEDNESDAY)
+           .atHour(5)
+           .create();
+  ScriptApp.newTrigger('sendGeneratedEmail')
+           .timeBased()
+           .onWeekDay(ScriptApp.WeekDay.THURSDAY)
+           .atHour(5)
+           .create();
+  ScriptApp.newTrigger('sendGeneratedEmail')
+           .timeBased()
+           .onWeekDay(ScriptApp.WeekDay.FRIDAY)
+           .atHour(5)
+           .create();
+  ScriptApp.newTrigger('sendGeneratedEmail')
+           .timeBased()
+           .onWeekDay(ScriptApp.WeekDay.SATURDAY)
            .atHour(5)
            .create();
 }
