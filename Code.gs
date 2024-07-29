@@ -112,7 +112,32 @@ function generateEmail(employeeName, taskAssigned, tasks) {
 function activateSendGeneratedEmail() {
   ScriptApp.newTrigger('sendGeneratedEmail')
            .timeBased()
-           .everyDays(1)
+           .onWeekDay(ScriptApp.WeekDay.MONDAY)
+           .atHour(5)
+           .create();
+  ScriptApp.newTrigger('sendGeneratedEmail')
+           .timeBased()
+           .onWeekDay(ScriptApp.WeekDay.TUESDAY)
+           .atHour(5)
+           .create();
+  ScriptApp.newTrigger('sendGeneratedEmail')
+           .timeBased()
+           .onWeekDay(ScriptApp.WeekDay.WEDNESDAY)
+           .atHour(5)
+           .create();
+  ScriptApp.newTrigger('sendGeneratedEmail')
+           .timeBased()
+           .onWeekDay(ScriptApp.WeekDay.THURSDAY)
+           .atHour(5)
+           .create();
+  ScriptApp.newTrigger('sendGeneratedEmail')
+           .timeBased()
+           .onWeekDay(ScriptApp.WeekDay.FRIDAY)
+           .atHour(5)
+           .create();
+  ScriptApp.newTrigger('sendGeneratedEmail')
+           .timeBased()
+           .onWeekDay(ScriptApp.WeekDay.SATURDAY)
            .atHour(5)
            .create();
 }
