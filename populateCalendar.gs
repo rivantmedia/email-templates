@@ -1,18 +1,29 @@
-const calendaSheetName = "7 Day Assignment";
+const actualCalendaSheetName = "7 Day Assignment - Actual";
+const alloacatedCalendaSheetName = "7 Day Assignment - Allocated";
 const employeeEmailIdIndex = 0;
 const completedOnDateIndex = 11;
 const linkFormula = `=QUERY('Company Employees'!A1:H, "select Col8")`;
+const ss = SpreadsheetApp.getActiveSpreadsheet();
 
-function populateCalendar() {
+function initiatePopulateCalendar() {
+  const actualCalendarSheet = ss.getSheetByName(actualCalendaSheetName);
+  const allocatedCalendarSheet = ss.getSheetByName(alloacatedCalendaSheetName);
+  var actualCalendarData = actualCalendarSheet.getDataRange().getValues();
+  var allocatedCalendarData = allocatedCalendarSheet.getDataRange().getValues();
+
+  actualCalendarData = populateData(actualCalendarData,actualCalendaSheetName);
+  actualCalendarSheet.getDataRange().setValues(actualCalendarData);
+
+  allocatedCalendarData = populateData(allocatedCalendarData,alloacatedCalendaSheetName);
+  allocatedCalendarSheet.getDataRange().setValues(allocatedCalendarData);  
+}
+
+function populateData(calendarData,sheetName) {
   const todayDate = new Date();
   var currMonth = months[todayDate.getMonth()];
-
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
   const taskSheet = ss.getSheetByName(currMonth);
-  const calendarSheet = ss.getSheetByName(calendaSheetName);
   var taskData = taskSheet.getDataRange().getValues();
-  var calendarData = calendarSheet.getDataRange().getValues();
-  
+
   // Loop through the calendar sheet
   for(var i = 1; i < calendarData.length; i++) {
     for(var j = 1; j < calendarData[i].length; j++) {
@@ -26,12 +37,18 @@ function populateCalendar() {
         var deadlineDate = taskData[k][deadlineDateIndex];
         var completedOnDate = taskData[k][completedOnDateIndex];
 
-        if (!completedOnDate) {
-          if (taskData[k][taskEmailAddressIndex] == employeeEmailId && assignedOnDate <= date && deadlineDate >= date) {
-            tasks++;
+        if (sheetName === actualCalendaSheetName) {
+          if (!completedOnDate) {
+            if (taskData[k][taskEmailAddressIndex] == employeeEmailId && assignedOnDate <= date && todayDate >= date) {
+              tasks++;
+            }
+          } else {
+            if (taskData[k][taskEmailAddressIndex] == employeeEmailId && assignedOnDate <= date && completedOnDate >= date) {
+              tasks++;
+            }
           }
         } else {
-          if (taskData[k][taskEmailAddressIndex] == employeeEmailId && assignedOnDate <= date && completedOnDate >= date) {
+          if (taskData[k][taskEmailAddressIndex] == employeeEmailId && assignedOnDate <= date && deadlineDate >= date) {
             tasks++;
           }
         }
@@ -51,23 +68,27 @@ function populateCalendar() {
   calendarData[0][6] = "=F1+1";
   calendarData[0][7] = "=G1+1";
 
-  calendarSheet.getDataRange().setValues(calendarData);
+  return calendarData;
 }
 
-function generateTriggger() {
-  var triggers = ScriptApp.getProjectTriggers();
-  for (var i = 0; i < triggers.length; i++) {
-    ScriptApp.deleteTrigger(triggers[i]);
-  }
-
-  ScriptApp.newTrigger('populateCalendar')
+function activateInitiatePopulateCalendar() {
+  ScriptApp.newTrigger('initiatePopulateCalendar')
            .forSpreadsheet(SpreadsheetApp.getActiveSpreadsheet())
            .onChange()
            .create();
   
-  ScriptApp.newTrigger('populateCalendar')
+  ScriptApp.newTrigger('initiatePopulateCalendar')
            .timeBased()
            .everyDays(1)
            .atHour(0)
            .create();
+}
+
+function deactivateInitiatePopulateCalendar() {
+  const triggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() === "initiatePopulateCalendar") {
+      ScriptApp.deleteTrigger(triggers[i]);
+    }
+  }
 }
