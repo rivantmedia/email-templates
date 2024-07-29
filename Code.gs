@@ -109,42 +109,19 @@ function generateEmail(employeeName, taskAssigned, tasks) {
 }
 
 // It will make a Trigger The sendGeneratedEmail function on regular interval
-function createTrigger() {
-  //Remove all old triggers
-  var triggers = ScriptApp.getProjectTriggers();
-  for (var i = 0; i < triggers.length; i++) {
-    ScriptApp.deleteTrigger(triggers[i]);
-  }
+function activateSendGeneratedEmail() {
+  ScriptApp.newTrigger('sendGeneratedEmail')
+           .timeBased()
+           .everyDays(1)
+           .atHour(5)
+           .create();
+}
 
-  //Add triggers for each day in week
-  ScriptApp.newTrigger('sendGeneratedEmail')
-           .timeBased()
-           .onWeekDay(ScriptApp.WeekDay.MONDAY)
-           .atHour(5)
-           .create();
-  ScriptApp.newTrigger('sendGeneratedEmail')
-           .timeBased()
-           .onWeekDay(ScriptApp.WeekDay.TUESDAY)
-           .atHour(5)
-           .create();
-  ScriptApp.newTrigger('sendGeneratedEmail')
-           .timeBased()
-           .onWeekDay(ScriptApp.WeekDay.WEDNESDAY)
-           .atHour(5)
-           .create();
-  ScriptApp.newTrigger('sendGeneratedEmail')
-           .timeBased()
-           .onWeekDay(ScriptApp.WeekDay.THURSDAY)
-           .atHour(5)
-           .create();
-  ScriptApp.newTrigger('sendGeneratedEmail')
-           .timeBased()
-           .onWeekDay(ScriptApp.WeekDay.FRIDAY)
-           .atHour(5)
-           .create();
-  ScriptApp.newTrigger('sendGeneratedEmail')
-           .timeBased()
-           .onWeekDay(ScriptApp.WeekDay.SATURDAY)
-           .atHour(5)
-           .create();
+function deactivateSendGeneratedEmail() {
+  const triggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() === "sendGeneratedEmail") {
+      ScriptApp.deleteTrigger(triggers[i]);
+    }
+  }
 }
