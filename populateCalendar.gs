@@ -1,9 +1,3 @@
-const actualCalendaSheetName = "7 Day Assignment - Actual";
-const alloacatedCalendaSheetName = "7 Day Assignment - Allocated";
-const employeeEmailIdIndex = 0;
-const completedOnDateIndex = 11;
-const ss = SpreadsheetApp.getActiveSpreadsheet();
-
 function initiatePopulateCalendar() {
   populateData(actualCalendaSheetName);
   populateData(alloacatedCalendaSheetName);
