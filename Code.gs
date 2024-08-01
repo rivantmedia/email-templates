@@ -1,26 +1,3 @@
-const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-const notifyAboutTaskStatuses = ["Ongoing", "Delayed"];
-const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
-
-
-// Configuration Variables
-const subject = "Your Personalised Morning Summary"
-// For Employee's Sheet
-const employeesSheetName = "Company Employees";
-const emailAddressIndex = 7;
-const employeeNameIndex = 1;
-// For Task's Sheet
-const companyNameIndex = 0;
-const taskDomainIndex = 1;
-const taskSummaryIndex = 2;
-const taskBriefIndex = 3;
-const allocatedHoursIndex = 4;
-const taskEmailAddressIndex = 6;
-const assignedOnIndex = 7;
-const deadlineDateIndex = 8;
-const inchargeIndex = 9;
-const taskStatusIndex = 10;
-
 function sendGeneratedEmail() {
   const todayDate = new Date();
 
@@ -109,14 +86,7 @@ function generateEmail(employeeName, taskAssigned, tasks) {
 }
 
 // It will make a Trigger The sendGeneratedEmail function on regular interval
-function createTrigger() {
-  //Remove all old triggers
-  var triggers = ScriptApp.getProjectTriggers();
-  for (var i = 0; i < triggers.length; i++) {
-    ScriptApp.deleteTrigger(triggers[i]);
-  }
-
-  //Add triggers for each day in week
+function activateSendGeneratedEmail() {
   ScriptApp.newTrigger('sendGeneratedEmail')
            .timeBased()
            .onWeekDay(ScriptApp.WeekDay.MONDAY)
@@ -147,4 +117,13 @@ function createTrigger() {
            .onWeekDay(ScriptApp.WeekDay.SATURDAY)
            .atHour(5)
            .create();
+}
+
+function deactivateSendGeneratedEmail() {
+  const triggers = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < triggers.length; i++) {
+    if (triggers[i].getHandlerFunction() === "sendGeneratedEmail") {
+      ScriptApp.deleteTrigger(triggers[i]);
+    }
+  }
 }
