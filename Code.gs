@@ -82,7 +82,6 @@ function sendGeneratedEmail(mailIds = []) {
           subject,
           htmlBody: htmlBody
         });
-        console.log(`Email Send to ${emailAddress}`);
       }
     } catch (err) {
       const errorDetails = {
