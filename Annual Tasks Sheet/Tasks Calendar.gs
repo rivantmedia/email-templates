@@ -27,10 +27,11 @@ function populateData(sheetName) {
 				var assignedOnDate = taskData[k][assignedOnIndex];
 				var deadlineDate = taskData[k][deadlineDateIndex];
 				var completedOnDate = taskData[k][completedOnDateIndex];
+        var compareDate = deadlineDate > todayDate ? deadlineDate : todayDate;
 
 				if (sheetName === actualCalendarSheetName) {
 					if (!completedOnDate) {
-						if (taskData[k][taskEmailAddressIndex] == employeeEmailId && assignedOnDate <= date && todayDate >= date) {
+						if (taskData[k][taskEmailAddressIndex] == employeeEmailId && assignedOnDate <= date && compareDate >= date) {
 							tasks++;
 						}
 					} else {
