@@ -37,3 +37,7 @@ This also has the added benefit of having everything in one place. It makes is i
     ├── ...
     └── (ALL FILES RELATED TO THIS SHEET / PROJECT)
 ```
+
+## Contributing
+
+Read the [Contributing Guidelines](/CONTRIBUTING.md) to learn how you can contribute to this project.
