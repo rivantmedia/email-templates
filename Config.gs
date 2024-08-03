@@ -3,6 +3,10 @@ const notifyAboutTaskStatuses = ["Ongoing", "Delayed"];
 const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 
 
+const errorEmailId = "paras@rivant.in"; // Will send the mail to this email if an error occured
+const requiredMailIds = [];  // Mail id to add to send mail
+
+
 const actualCalendaSheetName = "7 Day Assignment - Actual";
 const alloacatedCalendaSheetName = "7 Day Assignment - Allocated";
 const employeeEmailIdIndex = 0;

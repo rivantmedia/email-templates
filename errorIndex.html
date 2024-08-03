@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <table>
+      <tr>
+        <th>Employees EmailId</th>
+        <th>Error</th>
+      </tr>
+      <? data.forEach((e) => { ?>
+        <tr>
+          <td><?= e.emailAddress ?></td>
+          <td><?= e.error ?></td>
+        </tr>
+      <? }) ?>
+    </table>
+  </body>
+</html>
