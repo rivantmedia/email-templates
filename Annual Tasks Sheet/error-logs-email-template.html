@@ -6,13 +6,15 @@
   <body>
     <table>
       <tr>
-        <th>Employees EmailId</th>
-        <th>Error</th>
+        <th style="padding:5px; background-color: #fbbc04; border: 2px solid black">Employee Email</th>
+        <th style="padding:5px; background-color: #fbbc04; border: 2px solid black">Error</th>
+        <th style="padding:5px; background-color: #fbbc04; border: 2px solid black">Cell</th>
       </tr>
       <? data.forEach((e) => { ?>
         <tr>
-          <td><?= e.emailAddress ?></td>
-          <td><?= e.error ?></td>
+          <td style="padding:5px; background-color: #ffcccb; border: 2px solid black"><?= e.emailAddress ?></td>
+          <td style="padding:5px; background-color: #ffcccb; border: 2px solid black"><?= e.error ?></td>
+          <td style="padding:5px; background-color: #ffcccb; border: 2px solid black"><a href="<?= e.cellNoUrl ?>"><?= e.cellNo ?></a></td>
         </tr>
       <? }) ?>
     </table>
