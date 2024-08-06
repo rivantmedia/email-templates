@@ -14,6 +14,7 @@ function sendGeneratedEmail(mailIds = []) {
 	var currMonth = months[todayDate.getMonth()];
 	var employeeSheet = ss.getSheetByName(employeesSheetName);
 	var taskSheet = ss.getSheetByName(currMonth);
+  var taskSheetGid = taskSheet.getSheetId();
 	var employeeDataRange = employeeSheet.getDataRange();
 	var employeeData = employeeDataRange.getValues();
 	var taskDataRange = taskSheet.getDataRange();
@@ -40,11 +41,24 @@ function sendGeneratedEmail(mailIds = []) {
 						var companyName = taskData[j][companyNameIndex];
 						var taskDomain = taskData[j][taskDomainIndex];
 						var taskBrief = taskData[j][taskBriefIndex];
-						var assignedOn = taskData[j][assignedOnIndex].toLocaleDateString("en-GB");
+						var assignedOnDate = taskData[j][assignedOnIndex];
+            if (typeof(assignedOnDate) != "object") 
+            { 
+              var error = new Error("Data on the cell is string and not an object");
+              error.index = assignedOnIndex;
+              throw error;         
+            }
+						var assignedOn = assignedOnDate.toLocaleDateString("en-GB");
 						var allocatedHours = taskData[j][allocatedHoursIndex];
 						var taskDuration = Math.ceil(allocatedHours / 3);
 						var taskSummary = taskData[j][taskSummaryIndex];
 						var deadlineDate = taskData[j][deadlineDateIndex];
+            if (typeof(deadlineDate) != "object") 
+            { 
+              var error = new Error("Data on the cell is string and not an object");
+              error.index = deadlineDateIndex;
+              throw error;         
+            }
 						var deadline = deadlineDate.toLocaleDateString("en-GB");
 						var daysRemaining = Math.floor(Math.abs(deadlineDate - todayDate) / 1000 / (60 * 60 * 24));
 						var isDeadlineCrossed = todayDate > deadlineDate;
@@ -75,27 +89,33 @@ function sendGeneratedEmail(mailIds = []) {
 			var htmlBody = generateEmail(employeeName, taskAssigned, tasks);
 
 			if (emailAddress) {
-				MailApp.sendEmail({
-					to: emailAddress,
-					subject,
-					htmlBody: htmlBody
-				});
+				// MailApp.sendEmail({
+				// 	to: emailAddress,
+				// 	subject,
+				// 	htmlBody: htmlBody
+				// });
+        console.log(`Email has been sent to ${emailAddress}`);
 			}
 		} catch (err) {
+      var cellNo=`${row[err.index]}${j+1}`
 			const errorDetails = {
 				emailAddress,
-				error: err.message
+				error: err.message,
+        cellNo,
+        cellNoUrl: `${cellUrl}${taskSheetGid}&range=${cellNo}`
 			};
 			errorOccurredIds.push(errorDetails);
 		}
 	}
-	if (errorOccurredIds != 0) {
+	if (errorOccurredIds.length != 0) {
 		htmlBody = generateErrorEmail(errorOccurredIds);
-		MailApp.sendEmail({
-			to: errorEmailId,
+    errorEmailIds.forEach((email) => {
+      MailApp.sendEmail({
+			to: email,
 			subject: "An Error Occurred During Execution of sendGeneratedEmail",
 			htmlBody: htmlBody
 		});
+    })
 	}
 }
 
