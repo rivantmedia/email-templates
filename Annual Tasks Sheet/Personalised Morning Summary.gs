@@ -3,6 +3,7 @@ function sendPersonalisedGeneratedEmail() {
 }
 
 function sendGeneratedEmail(mailIds = []) {
+	const mid = mailIds ? mailIds : [];
 	const todayDate = new Date();
 	const errorOccurredIds = [];
 
@@ -20,8 +21,8 @@ function sendGeneratedEmail(mailIds = []) {
 	var taskDataRange = taskSheet.getDataRange();
 	var taskData = taskDataRange.getValues();
 
-	if (mailIds.length != 0) {
-		employeeData = employeeData.filter((employee) => mailIds.includes(employee[emailAddressIndex]));
+	if (mid.length != 0) {
+		employeeData = employeeData.filter((employee) => mid.includes(employee[emailAddressIndex]));
 	}
 
 	// Loops Through All Active Employees
