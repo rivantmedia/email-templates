@@ -1,8 +1,10 @@
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const getCol = (index) => "A".repeat(Math.floor(index/26))+String.fromCharCode(64+index%26);
 const notifyAboutTaskStatuses = ["Ongoing", "Delayed"];
 const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+const cellUrl = "https://docs.google.com/spreadsheets/d/1aU6rlFCLjpmADSkm3KFoDzyKmxnWMx3xAnrfvnDO298/edit#gid=";
 
-const errorEmailId = "paras@rivant.in"; // Will send the mail to this email if an error occurred
+const errorEmailIds = ["it@rivant.in","paras@rivant.in","taniya@rivant.in"]; // Will send the mail to this email if an error occurred
 const requiredMailIds = []; // Mail id to add to send mail
 
 const actualCalendarSheetName = "7 Day Assignment - Actual";
