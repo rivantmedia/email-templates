@@ -89,12 +89,11 @@ function sendGeneratedEmail(mailIds = []) {
 			var htmlBody = generateEmail(employeeName, taskAssigned, tasks);
 
 			if (emailAddress) {
-				// MailApp.sendEmail({
-				// 	to: emailAddress,
-				// 	subject,
-				// 	htmlBody: htmlBody
-				// });
-        console.log(`Email has been sent to ${emailAddress}`);
+				 MailApp.sendEmail({
+				 	to: emailAddress,
+				 	subject,
+				 	htmlBody: htmlBody
+				 });
 			}
 		} catch (err) {
       var cellNo=`${row[err.index]}${j+1}`
