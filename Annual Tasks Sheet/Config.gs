@@ -1,5 +1,5 @@
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-const row = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+const getCol = (index) => "A".repeat(Math.floor(index/26))+String.fromCharCode(64+index%26);
 const notifyAboutTaskStatuses = ["Ongoing", "Delayed"];
 const urlRegex = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 const cellUrl = "https://docs.google.com/spreadsheets/d/1aU6rlFCLjpmADSkm3KFoDzyKmxnWMx3xAnrfvnDO298/edit#gid=";

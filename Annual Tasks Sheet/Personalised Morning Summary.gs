@@ -96,7 +96,7 @@ function sendGeneratedEmail(mailIds = []) {
 				 });
 			}
 		} catch (err) {
-      var cellNo=`${row[err.index]}${j+1}`
+      var cellNo=`${getCol(err.index)}${j+1}`
 			const errorDetails = {
 				emailAddress,
 				error: err.message,
