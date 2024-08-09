@@ -2,8 +2,8 @@ function sendPersonalisedGeneratedEmail() {
 	sendGeneratedEmail(requiredMailIds);
 }
 
-function sendGeneratedEmail(mailIds = []) {
-	const mid = mailIds ? mailIds : [];
+function sendGeneratedEmail(mailIds) {
+	const mid = Array.isArray(mailIds) ? mailIds : [];
 	const todayDate = new Date();
 	const errorOccurredIds = [];
 
@@ -94,7 +94,7 @@ function sendGeneratedEmail(mailIds = []) {
 				 	to: emailAddress,
 				 	subject,
 				 	htmlBody: htmlBody
-				 });
+				});
 			}
 		} catch (err) {
       var cellNo=`${getCol(err.index+1)}${j+1}`
@@ -114,7 +114,7 @@ function sendGeneratedEmail(mailIds = []) {
 			to: email,
 			subject: "An Error Occurred During Execution of sendGeneratedEmail",
 			htmlBody: htmlBody
-		});
+		  });
     })
 	}
 }
